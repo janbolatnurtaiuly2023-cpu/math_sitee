@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- 5-СЫНЫП ВИДЕОСАБАҚТАРЫ -->
+<div class="card">
+    <h1>🎥 <span style="background: #667eea; color: white; padding: 5px 15px; border-radius: 20px;">5-СЫНЫП</span> видеосабақтары</h1>
+</div>
+
+<div class="menu-grid">
+    {% for video in videos_grade_5 %}
+    <div class="menu-card">
+        <div class="menu-icon">🎬</div>
+        <h3>{{ video.title }}</h3>
+        <p>{{ video.description }}</p>
+        <p>⏱️ {{ video.duration }}</p>
+        <a href="{{ video.youtube_url }}" target="_blank" class="btn">
+            <i class="fas fa-play"></i> Көру
+        </a>
+    </div>
+    {% empty %}
+    <div class="card">
+        <p>5-сынып видеосабақтары әзірге жоқ. Админ панелінен қосыңыз!</p>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- 6-СЫНЫП ВИДЕОСАБАҚТАРЫ -->
+<div class="card" style="margin-top: 2rem;">
+    <h1>🎥 <span style="background: #764ba2; color: white; padding: 5px 15px; border-radius: 20px;">6-СЫНЫП</span> видеосабақтары</h1>
+</div>
+
+<div class="menu-grid">
+    {% for video in videos_grade_6 %}
+    <div class="menu-card">
+        <div class="menu-icon">🎬</div>
+        <h3>{{ video.title }}</h3>
+        <p>{{ video.description }}</p>
+        <p>⏱️ {{ video.duration }}</p>
+        <a href="{{ video.youtube_url }}" target="_blank" class="btn">
+            <i class="fas fa-play"></i> Көру
+        </a>
+    </div>
+    {% empty %}
+    <div class="card">
+        <p>6-сынып видеосабақтары әзірге жоқ. Админ панелінен қосыңыз!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

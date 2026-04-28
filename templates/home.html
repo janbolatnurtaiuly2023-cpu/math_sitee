@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h1>📚 MathEdu сайтына қош келдіңіз!</h1>
+    <p style="font-size: 1.1rem; margin: 1rem 0;">
+        5-6 сынып оқушыларына арналған математика платформасы
+    </p>
+    <p style="color: #666;">
+        Формулаларды үйреніп, видеосабақтар көріп, тест тапсырыңыз
+    </p>
+</div>
+
+<div class="menu-grid">
+    <a href="/formulas/" class="menu-card">
+        <div class="menu-icon">📐</div>
+        <h3>Формулалар</h3>
+        <p>Математикалық формулалар жинағы</p>
+    </a>
+    
+    <a href="/videos/" class="menu-card">
+        <div class="menu-icon">🎥</div>
+        <h3>Видеосабақтар</h3>
+        <p>Түсінікті бейнесабақтар</p>
+    </a>
+    
+    <a href="/tests/" class="menu-card">
+        <div class="menu-icon">📝</div>
+        <h3>Тесттер</h3>
+        <p>Өз біліміңізді тексеріңіз</p>
+    </a>
+    
+    <a href="/library/" class="menu-card">
+        <div class="menu-icon">📚</div>
+        <h3>Кітапхана</h3>
+        <p>Онлайн кітаптар мен оқулықтар</p>
+    </a>
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+    <a href="/tests/" class="btn">
+        <i class="fas fa-play"></i> Тесттерді бастау
+    </a>
+</div>
+{% endblock %}

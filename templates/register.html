@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>📝 Тіркелу</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: red;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Логин" required><br><br>
+        <input type="email" name="email" placeholder="Email" required><br><br>
+        <input type="password" name="password" placeholder="Құпия сөз" required><br><br>
+        <input type="password" name="password2" placeholder="Құпия сөзді қайталаңыз" required><br><br>
+        <button type="submit" class="btn">Тіркелу</button>
+    </form>
+    <p>Есебіңіз бар ма? <a href="/login/">Кіру</a></p>
+</div>
+{% endblock %}

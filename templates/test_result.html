@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h1>{% if passed %}🎉 Құттықтаймыз!{% else %}😔 Өкінішті{% endif %}</h1>
+    
+    <div style="font-size: 3rem; margin: 1rem 0;">
+        {{ score }} / {{ total }}
+    </div>
+    
+    <div style="font-size: 1.5rem;">
+        {{ percentage|floatformat:1 }}%
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'tests' %}" class="btn">📋 Барлық тесттер</a>
+        <a href="{% url 'home' %}" class="btn">🏠 Басты бет</a>
+    </div>
+</div>
+{% endblock %}
