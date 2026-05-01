@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<!-- 5-СЫНЫП ФОРМУЛАЛАРЫ -->
 <div class="card">
-    <h1>📐 <span style="background: #667eea; color: white; padding: 5px 15px; border-radius: 20px;">5-СЫНЫП</span> формулалары</h1>
+    <h1>📐 5-сынып формулалары</h1>
 </div>
 
 <div class="menu-grid">
-    {% for formula in formulas_grade_5 %}
+    {% for formula in formulas %}
     <div class="menu-card">
         <div class="menu-icon">📐</div>
         <h3>{{ formula.title }}</h3>
@@ -17,27 +15,7 @@
     </div>
     {% empty %}
     <div class="card">
-        <p>5-сынып формулалары әзірге жоқ. Админ панелінен қосыңыз!</p>
-    </div>
-    {% endfor %}
-</div>
-
-<!-- 6-СЫНЫП ФОРМУЛАЛАРЫ -->
-<div class="card" style="margin-top: 2rem;">
-    <h1>📐 <span style="background: #764ba2; color: white; padding: 5px 15px; border-radius: 20px;">6-СЫНЫП</span> формулалары</h1>
-</div>
-
-<div class="menu-grid">
-    {% for formula in formulas_grade_6 %}
-    <div class="menu-card">
-        <div class="menu-icon">📏</div>
-        <h3>{{ formula.title }}</h3>
-        <p style="font-size: 1.3rem; font-weight: bold; color: #764ba2;">{{ formula.formula_text }}</p>
-        <p>{{ formula.description }}</p>
-    </div>
-    {% empty %}
-    <div class="card">
-        <p>6-сынып формулалары әзірге жоқ. Админ панелінен қосыңыз!</p>
+        <p>Әзірге формулалар жоқ. Админ панелінен қосыңыз!</p>
     </div>
     {% endfor %}
 </div>

@@ -2,28 +2,26 @@
 
 {% block content %}
 <div class="card">
-    <h1>📚 Кітапхана</h1>
-    
-    <h2>5-сынып кітаптары ({{ books_grade_5|length }})</h2>
-    {% for book in books_grade_5 %}
+    <h1>📚 5-сынып кітапханасы</h1>
+</div>
+
+<div class="menu-grid">
+    {% for book in books %}
     <div class="menu-card">
+        <div class="menu-icon">📖</div>
         <h3>{{ book.title }}</h3>
-        <p>Авторы: {{ book.author }}</p>
-        <p>{{ book.description }}</p>
+        <p><strong>Авторы:</strong> {{ book.author }}</p>
+        <p>{{ book.description|truncatewords:20 }}</p>
+        {% if book.pdf_link %}
+            <a href="{{ book.pdf_link }}" target="_blank" class="btn">Оқу</a>
+        {% else %}
+            <button class="btn" style="background: #ccc;" disabled>Әзірге жоқ</button>
+        {% endif %}
     </div>
     {% empty %}
-    <p style="color: red;">5-сынып кітаптары жоқ!</p>
-    {% endfor %}
-    
-    <h2>6-сынып кітаптары ({{ books_grade_6|length }})</h2>
-    {% for book in books_grade_6 %}
-    <div class="menu-card">
-        <h3>{{ book.title }}</h3>
-        <p>Авторы: {{ book.author }}</p>
-        <p>{{ book.description }}</p>
+    <div class="card">
+        <p>Әзірге кітаптар жоқ. Админ панелінен қосыңыз!</p>
     </div>
-    {% empty %}
-    <p style="color: red;">6-сынып кітаптары жоқ!</p>
     {% endfor %}
 </div>
 {% endblock %}

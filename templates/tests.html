@@ -1,56 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<!-- 5-СЫНЫП ТЕСТТЕРІ -->
 <div class="card">
-    <h1>📝 <span style="background: #667eea; color: white; padding: 5px 15px; border-radius: 20px;">5-СЫНЫП</span> тесттері</h1>
+    <h1>📝 5-сынып тесттері</h1>
+    <p>Өз біліміңізді тексеріңіз!</p>
 </div>
 
-<div class="menu-grid">
-    {% for test in tests_grade_5 %}
-    <div class="menu-card">
-        <div class="menu-icon">📋</div>
-        <h3>{{ test.title }}</h3>
-        <p>{{ test.description }}</p>
-        <p>✅ Өту балы: {{ test.passing_score }}%</p>
-        <p>📊 Сұрақтар саны: {{ test.questions.count }}</p>
-        {% if test.id in completed_tests.keys %}
-            <p style="color: green;">✅ Тапсырылған</p>
-        {% else %}
-            <a href="{% url 'test_detail' test.id %}" class="btn">▶️ Бастау</a>
-        {% endif %}
-    </div>
-    {% empty %}
-    <div class="card">
-        <p>5-сынып тесттері әзірге жоқ. Админ панелінен қосыңыз!</p>
-    </div>
-    {% endfor %}
+{% for test in tests %}
+<div class="menu-card" style="margin-bottom: 1rem;">
+    <h3>{{ test.title }}</h3>
+    <p>{{ test.description }}</p>
+    <p>✅ Өту балы: {{ test.passing_score }}%</p>
+    <p>📊 Сұрақтар саны: {{ test.questions.count }}</p>
+    
+    {% if test.id in completed_tests.keys %}
+        <p style="color: green;">✅ Сіз бұл тестті тапсырғансыз</p>
+    {% else %}
+        <a href="{% url 'test_detail' test.id %}" class="btn">▶️ Бастау</a>
+    {% endif %}
 </div>
-
-<!-- 6-СЫНЫП ТЕСТТЕРІ -->
-<div class="card" style="margin-top: 2rem;">
-    <h1>📝 <span style="background: #764ba2; color: white; padding: 5px 15px; border-radius: 20px;">6-СЫНЫП</span> тесттері</h1>
+{% empty %}
+<div class="card">
+    <p>Әзірге тесттер жоқ. Админ панелінен қосыңыз!</p>
 </div>
-
-<div class="menu-grid">
-    {% for test in tests_grade_6 %}
-    <div class="menu-card">
-        <div class="menu-icon">📋</div>
-        <h3>{{ test.title }}</h3>
-        <p>{{ test.description }}</p>
-        <p>✅ Өту балы: {{ test.passing_score }}%</p>
-        <p>📊 Сұрақтар саны: {{ test.questions.count }}</p>
-        {% if test.id in completed_tests.keys %}
-            <p style="color: green;">✅ Тапсырылған</p>
-        {% else %}
-            <a href="{% url 'test_detail' test.id %}" class="btn">▶️ Бастау</a>
-        {% endif %}
-    </div>
-    {% empty %}
-    <div class="card">
-        <p>6-сынып тесттері әзірге жоқ. Админ панелінен қосыңыз!</p>
-    </div>
-    {% endfor %}
-</div>
+{% endfor %}
 {% endblock %}

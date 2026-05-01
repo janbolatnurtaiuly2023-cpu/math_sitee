@@ -47,4 +47,26 @@
     </div>
     {% endfor %}
 </div>
+{% endblock %}{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>🎥 5-сынып видеосабақтары</h1>
+</div>
+
+<div class="menu-grid">
+    {% for video in videos %}
+    <div class="menu-card">
+        <div class="menu-icon">🎬</div>
+        <h3>{{ video.title }}</h3>
+        <p>{{ video.description }}</p>
+        <p>⏱️ {{ video.duration }}</p>
+        <a href="{{ video.youtube_url }}" target="_blank" class="btn">Көру</a>
+    </div>
+    {% empty %}
+    <div class="card">
+        <p>Әзірге видеосабақтар жоқ. Админ панелінен қосыңыз!</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -6,7 +6,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Subject, Test, Question, TestResult, VideoLesson, Formula, Book
 
 def home(request):
-    return render(request, 'home.html')
+    # Тек 5-сынып тақырыптары
+    subjects = Subject.objects.filter(grade=5)
+    return render(request, 'home.html', {'subjects': subjects})
 
 def user_register(request):
     if request.method == 'POST':
@@ -45,15 +47,12 @@ def user_logout(request):
 
 @login_required
 def tests(request):
-    # Сынып бойынша тесттерді бөлу
-    tests_grade_5 = Test.objects.filter(subject__grade=5)
-    tests_grade_6 = Test.objects.filter(subject__grade=6)
+    # Тек 5-сынып тесттері
+    all_tests = Test.objects.filter(subject__grade=5)
     results = TestResult.objects.filter(user=request.user)
     completed_tests = {r.test_id: r for r in results}
-    
     return render(request, 'tests.html', {
-        'tests_grade_5': tests_grade_5,
-        'tests_grade_6': tests_grade_6,
+        'tests': all_tests,
         'completed_tests': completed_tests
     })
 
@@ -96,32 +95,19 @@ def test_detail(request, test_id):
     })
 
 @login_required
-def videos(request, grade=None):
-    # Сынып бойынша видеосабақтарды бөлу
-    videos_grade_5 = VideoLesson.objects.filter(subject__grade=5).order_by('order')
-    videos_grade_6 = VideoLesson.objects.filter(subject__grade=6).order_by('order')
-    
-    return render(request, 'videos.html', {
-        'videos_grade_5': videos_grade_5,
-        'videos_grade_6': videos_grade_6
-    })
+def videos(request):
+    # Тек 5-сынып видеосабақтары
+    videos_list = VideoLesson.objects.filter(subject__grade=5).order_by('order')
+    return render(request, 'videos.html', {'videos': videos_list})
 
 @login_required
-def formulas(request, grade=None):
-    # Сынып бойынша формулаларды бөлу
-    formulas_grade_5 = Formula.objects.filter(subject__grade=5)
-    formulas_grade_6 = Formula.objects.filter(subject__grade=6)
-    
-    return render(request, 'formulas.html', {
-        'formulas_grade_5': formulas_grade_5,
-        'formulas_grade_6': formulas_grade_6
-    })
+def formulas(request):
+    # Тек 5-сынып формулалары
+    formulas_list = Formula.objects.filter(subject__grade=5)
+    return render(request, 'formulas.html', {'formulas': formulas_list})
 
 @login_required
 def library(request):
-    books_grade_5 = Book.objects.filter(subject__grade=5)
-    books_grade_6 = Book.objects.filter(subject__grade=6)
-    return render(request, 'library.html', {
-        'books_grade_5': books_grade_5,
-        'books_grade_6': books_grade_6
-    })
+    # Тек 5-сынып кітаптары
+    books_list = Book.objects.filter(subject__grade=5)
+    return render(request, 'library.html', {'books': books_list})
