@@ -3,8 +3,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-your-secret-key-here'
-DEBUG = False
-ALLOWED_HOSTS = ['janbolat2023.pythonanywhere.com', 'www.janbolat2023.pythonanywhere.com']
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -13,7 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',  # Қосымшаны қосу
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -65,10 +67,20 @@ TIME_ZONE = 'Asia/Almaty'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Статикалық файлдар баптауы
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
-# Логин жүйесі
+# Медиа файлдар
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Login баптаулары
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
