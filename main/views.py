@@ -100,14 +100,3 @@ def videos(request):
     videos_list = VideoLesson.objects.filter(subject__grade=5).order_by('order')
     return render(request, 'videos.html', {'videos': videos_list})
 
-@login_required
-def formulas(request):
-    # Тек 5-сынып формулалары
-    formulas_list = Formula.objects.filter(subject__grade=5)
-    return render(request, 'formulas.html', {'formulas': formulas_list})
-
-@login_required
-def library(request):
-    # Тек 5-сынып кітаптары
-    books_list = Book.objects.filter(subject__grade=5)
-    return render(request, 'library.html', {'books': books_list})
