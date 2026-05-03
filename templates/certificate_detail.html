@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center; border: 5px solid gold; background: linear-gradient(135deg, #fff8e7, #fff);">
+    <div style="margin-bottom: 20px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="certificate" style="width: 80px;">
+    </div>
+    <h1>🏆 СЕРТИФИКАТ 🏆</h1>
+    <h2>Математикадан</h2>
+    <p style="font-size: 1.2rem;">Мақтанышпен тапсырылады</p>
+    <h3 style="font-size: 1.8rem; margin: 20px 0;">{{ certificate.user.username }}</h3>
+    <p>Тест: <strong>{{ certificate.test.title }}</strong></p>
+    <p>Нәтиже: <strong>{{ certificate.percentage|floatformat:1 }}%</strong></p>
+    <p>Балл: <strong>{{ certificate.score }}/{{ certificate.total }}</strong></p>
+    <p>Күні: <strong>{{ certificate.created_at|date:"d.m.Y" }}</strong></p>
+    <p>Сертификат нөмірі: <strong>{{ certificate.certificate_number }}</strong></p>
+    <div style="margin-top: 30px;">
+        <p>_________________________</p>
+        <p style="font-size: 0.9rem;">MathEdu.com сайтының әкімшілігі</p>
+    </div>
+    <button onclick="window.print()" class="btn" style="margin-top: 30px; background: gold; color: #333;">
+        🖨️ Басып шығару
+    </button>
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Subject, Test, Question, TestResult, VideoLesson, Formula, Book
+from .models import Subject, Test, Question, TestResult, VideoLesson, Formula, Book, Certificate
 
 def home(request):
     # Тек 5-сынып тақырыптары

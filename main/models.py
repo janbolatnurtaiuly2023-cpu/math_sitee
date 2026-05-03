@@ -75,7 +75,7 @@ class Formula(models.Model):
 class Book(models.Model):
     title = models.CharField("Кітап атауы", max_length=200)
     author = models.CharField("Авторы", max_length=100)
-    subject = models.ForeignKey('Subject', on_delete=models.CASCADE, related_name='books', null=True, blank=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='books', null=True, blank=True)
     description = models.TextField("Сипаттамасы")
     pdf_link = models.URLField("PDF сілтемесі", blank=True)
     
@@ -85,3 +85,24 @@ class Book(models.Model):
     class Meta:
         verbose_name = "Кітап"
         verbose_name_plural = "Кітаптар"
+        # uuid жолын өшіріңіз!
+        
+class Certificate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    score = models.IntegerField("Алынған балл")
+    total = models.IntegerField("Жалпы балл")
+    percentage = models.FloatField("Пайыз")
+    certificate_number = models.CharField("Сертификат нөмірі", max_length=50, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.certificate_number:
+            import hashlib
+            import time
+            unique_string = f"{self.user.id}-{self.test.id}-{time.time()}"
+            self.certificate_number = hashlib.md5(unique_string.encode()).hexdigest()[:10].upper()
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.test.title} ({self.percentage}%)"

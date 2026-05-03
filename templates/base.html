@@ -222,6 +222,7 @@
                 <a href="/videos/"><i class="fas fa-video"></i> Видео</a>
                 <a href="/tests/"><i class="fas fa-question-circle"></i> Тесттер</a>
                 <a href="/library/"><i class="fas fa-library"></i> Кітапхана</a>
+                <a href="{% url 'certificates' %}">🏆 Сертификаттар</a>
                 {% if user.is_authenticated %}
                     <span style="color: #667eea;">
                         <i class="fas fa-user"></i> {{ user.username }}

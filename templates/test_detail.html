@@ -1,20 +1,60 @@
-{% extends 'base.html' %}
+@login_required
+def test_detail(request, test_id):
+    test = get_object_or_404(Test, id=test_id)
+    questions = test.questions.all()
+    
+    if request.method == 'POST':
+        score = 0
+        for question in questions:
+            user_answer = request.POST.get(f'question_{question.id}')
+            if user_answer == question.correct:
+                score += question.points
+        
+        total = sum(q.points for q in questions)
+        percentage = (score / total) * 100
+        passed = percentage >= test.passing_score
+        
+        # Нәтижені сақтау
+        TestResult.objects.create(
+            user=request.user,
+            test=test,
+            score=score,
+            total=total,
+            percentage=percentage,
+            passed=passed
+        )
+        
+        # Егер тапсырған болса, сертификат жасау (егер жоқ болса)
+        if passed:
+            existing_cert = Certificate.objects.filter(user=request.user, test=test).first()
+            if not existing_cert:
+                Certificate.objects.create(
+                    user=request.user,
+                    test=test,
+                    score=score,
+                    total=total,
+                    percentage=percentage
+                )
+        
+        return render(request, 'test_result.html', {
+            'test': test,
+            'score': score,
+            'total': total,
+            'percentage': percentage,
+            'passed': passed
+        })
+    
+    return render(request, 'test_detail.html', {
+        'test': test,
+        'questions': questions
+    })
 
-{% block content %}
-<h1>{{ test.title }}</h1>
-<p>{{ test.description }}</p>
+ @login_required
+def certificates(request):
+    user_certificates = Certificate.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'certificates.html', {'certificates': user_certificates})
 
-<form method="post">
-    {% csrf_token %}
-    {% for q in questions %}
-    <div class="card">
-        <p><strong>{{ forloop.counter }}. {{ q.text }}</strong></p>
-        <label><input type="radio" name="question_{{ q.id }}" value="A" required> A) {{ q.option_a }}</label><br>
-        <label><input type="radio" name="question_{{ q.id }}" value="B"> B) {{ q.option_b }}</label><br>
-        <label><input type="radio" name="question_{{ q.id }}" value="C"> C) {{ q.option_c }}</label><br>
-        <label><input type="radio" name="question_{{ q.id }}" value="D"> D) {{ q.option_d }}</label>
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn">✅ Тестті аяқтау</button>
-</form>
-{% endblock %}
+@login_required
+def certificate_detail(request, cert_id):
+    certificate = get_object_or_404(Certificate, id=cert_id, user=request.user)
+    return render(request, 'certificate_detail.html', {'certificate': certificate})   
