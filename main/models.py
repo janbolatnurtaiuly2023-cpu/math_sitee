@@ -87,22 +87,4 @@ class Book(models.Model):
         verbose_name_plural = "Кітаптар"
         # uuid жолын өшіріңіз!
         
-class Certificate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    score = models.IntegerField("Алынған балл")
-    total = models.IntegerField("Жалпы балл")
-    percentage = models.FloatField("Пайыз")
-    certificate_number = models.CharField("Сертификат нөмірі", max_length=50, unique=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def save(self, *args, **kwargs):
-        if not self.certificate_number:
-            import hashlib
-            import time
-            unique_string = f"{self.user.id}-{self.test.id}-{time.time()}"
-            self.certificate_number = hashlib.md5(unique_string.encode()).hexdigest()[:10].upper()
-        super().save(*args, **kwargs)
-    
-    def __str__(self):
-        return f"{self.user.username} - {self.test.title} ({self.percentage}%)"
+
