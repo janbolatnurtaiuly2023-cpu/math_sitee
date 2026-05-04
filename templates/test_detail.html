@@ -1,51 +1,54 @@
-@login_required
-def test_detail(request, test_id):
-    test = get_object_or_404(Test, id=test_id)
-    questions = test.questions.all()
-    
-    if request.method == 'POST':
-        score = 0
-        for question in questions:
-            user_answer = request.POST.get(f'question_{question.id}')
-            if user_answer == question.correct:
-                score += question.points
-        
-        total = sum(q.points for q in questions)
-        percentage = (score / total) * 100
-        passed = percentage >= test.passing_score
-        
-        # Нәтижені сақтау
-        TestResult.objects.create(
-            user=request.user,
-            test=test,
-            score=score,
-            total=total,
-            percentage=percentage,
-            passed=passed
-        )
-        
-        # Егер тапсырған болса, сертификат жасау (егер жоқ болса)
-        if passed:
-            existing_cert = Certificate.objects.filter(user=request.user, test=test).first()
-            if not existing_cert:
-                Certificate.objects.create(
-                    user=request.user,
-                    test=test,
-                    score=score,
-                    total=total,
-                    percentage=percentage
-                )
-        
-        return render(request, 'test_result.html', {
-            'test': test,
-            'score': score,
-            'total': total,
-            'percentage': percentage,
-            'passed': passed
-        })
-    
-    return render(request, 'test_detail.html', {
-        'test': test,
-        'questions': questions
-    })
+{% extends 'base.html' %}
 
+{% block content %}
+<div class="card">
+    <h1>{{ test.title }}</h1>
+    <p>{{ test.description }}</p>
+    <p>⏱️ Уақыт шегі: {{ test.time_limit }} минут</p>
+    <p>✅ Өту балы: {{ test.passing_score }}%</p>
+    <p>❓ Сұрақтар саны: {{ questions|length }}</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {% for question in questions %}
+    <div class="card">
+        <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="A" required>
+                A) {{ question.option_a }}
+            </label>
+        </div>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="B">
+                B) {{ question.option_b }}
+            </label>
+        </div>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="C">
+                C) {{ question.option_c }}
+            </label>
+        </div>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="D">
+                D) {{ question.option_d }}
+            </label>
+        </div>
+    </div>
+    {% empty %}
+    <div class="card">
+        <p>Әзірге сұрақтар жоқ. Админ панелінен қосыңыз!</p>
+    </div>
+    {% endfor %}
+    
+    {% if questions %}
+    <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.2rem;">
+        ✅ Тестті аяқтау
+    </button>
+    {% endif %}
+</form>
+{% endblock %}
