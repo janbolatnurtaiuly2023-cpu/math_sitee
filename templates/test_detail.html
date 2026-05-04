@@ -49,12 +49,3 @@ def test_detail(request, test_id):
         'questions': questions
     })
 
- @login_required
-def certificates(request):
-    user_certificates = Certificate.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'certificates.html', {'certificates': user_certificates})
-
-@login_required
-def certificate_detail(request, cert_id):
-    certificate = get_object_or_404(Certificate, id=cert_id, user=request.user)
-    return render(request, 'certificate_detail.html', {'certificate': certificate})   
